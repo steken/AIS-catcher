@@ -30,7 +30,7 @@ class MessageStatistics {
 
 	static const int _MAGIC = 0x4f82b;
 	static const int _VERSION = 2;
-	static const int _RADAR_BUCKETS = 18;
+	static const int _RADAR_BUCKETS = 24;
 
 	int _LONG_RANGE_CUTOFF = 2500;
 
