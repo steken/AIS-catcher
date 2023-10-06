@@ -1231,7 +1231,7 @@
 
 			.stationIcon i {
 				color: var(--secondary-color);
-				font-size: 18px;
+				font-size: 12px;
 			}
 
 			.stationIcon div {
@@ -1240,7 +1240,6 @@
 				left: -3px;
 				width: 24px;
 				height: 24px;
-				background-color: var(--tertiary-color);
 				border-radius: 50%;
 				z-index: -1;
 			}
@@ -3015,7 +3014,7 @@
 			}
 
 			function headerClick() {
-				window.open("https://github.com/jvde-github/AIS-catcher");
+				window.open("https://github.com/steken/AIS-catcher");
 			}
 
 			function removeTileLayer() {
@@ -4697,7 +4696,9 @@
 			}
 
 			function getTooltipContent(ship) {
-				return getFlag(ship.country) + `<span><b>${getShipName(ship) || ship.mmsi}</b></span><span><br>${getDeltaTimeVal(ship.last_signal)} ago</span>`;
+//				return getFlag(ship.country) + `<span><b>${getShipName(ship) || ship.mmsi}</b></span><span><br>${getDeltaTimeVal(ship.last_signal)} ago</span>`;
+				return getFlag(ship.country) + `<span><b>${getShipName(ship) || ship.mmsi}</b><br>${ship.speed ? getSpeedVal(ship.speed) + " " + getSpeedUnit() + "    " : ""}${getDeltaTimeVal(ship.last_signal)} ago</span>`;
+
 			}
 
 			function createTooltip(ship) {
@@ -5024,12 +5025,18 @@
 
 				const latLngs = [];
 
-				for (var i = 0; i < Math.min(path.length, 250); i++) {
-					latLngs.push([path[i].lat, path[i].lon]);
+				if(m == hover_mmsi) {
+					for (var i = 0; i < Math.min(path.length, 2000); i++) {
+						latLngs.push([path[i].lat, path[i].lon]);
+					}
+					marker_tracks[m] = new L.polyline(latLngs, { color: "#ff0000", opacity: 0.85, weight: 2 }).addTo(map);
 				}
-
-				if (m == hover_mmsi) marker_tracks[m] = new L.polyline(latLngs, { color: "#12a5ed", opacity: 0.85, weight: 2 }).addTo(map);
-				else marker_tracks[m] = new L.polyline(latLngs, { color: "#12a5ed", opacity: 0.7, weight: 1 }).addTo(map);
+				else {
+					for (var i = 0; i < Math.min(path.length, 1000); i++) {
+						latLngs.push([path[i].lat, path[i].lon]);
+					}
+					marker_tracks[m] = new L.polyline(latLngs, { color: "#12a5ff", opacity: 0.7, weight: 1 }).addTo(map);
+				}
 
 				if (m == card_mmsi) document.getElementById("shipcard_track").innerText = "Hide Track";
 			}
