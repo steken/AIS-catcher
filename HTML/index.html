@@ -22,6 +22,7 @@
 				--primary-color: #0857b1;
 				--secondary-color: #12a5ed;
 				--tertiary-color: #0b1033;
+				--settings-bg-color: white;
 				--bottombar-color: var(--tertiary-color);
 				--panel-color: #f2f8ff;
 				--ok-color: rgb(129, 244, 129);
@@ -56,8 +57,6 @@
 				--table-background-color: white;
 				--table-selection-background-color: #daebfe;
 				--table-alternate-background-color: var(--panel-color);
-				--range-color: orange;
-				--range-short-color: rgba(255, 165, 0, 0.2);
 				--main-font-color: var(--tertiary-color);
 				--stat-label-color: var(--tertiary-color);
 				--stat-divider-color: var(--tertiary-color);
@@ -89,6 +88,7 @@
 				--secondary-color: #5dd5d5;
 				--tertiary-color: #05081f;
 				--bottombar-color: black;
+				--settings-bg-color: black;
 				--panel-color: rgb(18, 18, 18);
 				--ok-color: #7ce481;
 				--error-color: #cf6679;
@@ -112,10 +112,8 @@
 				--table-header-background-color: rgb(50, 50, 50);
 				--table-border-color: rgb(18, 18, 18);
 				--table-background-color: rgb(18, 18, 18);
-				--table-selection-background-color: rgb(40, 40, 40);
+				--table-selection-background-color: rgb(60, 60, 60);
 				--table-alternate-background-color: rgb(30, 30, 30);
-				--range-color: rgb(75, 75, 75);
-				--range-short-color: rgb(75, 75, 75, 0.25);
 				--main-font-color: white;
 				--stat-label-color: darkgrey;
 				--stat-divider-color: rgb(50, 50, 50);
@@ -126,7 +124,7 @@
 				--shipcard-content-hover-color: var(--tertiary-color);
 				--shipcard-footer-hover-color: var(--secondary-color);
 				--shipcard-footer-shadow-color: black;
-				--shipcard-selection-color: rgb(25, 25, 25);
+				--shipcard-selection-color: rgb(50, 50, 50);
 				--shipcard-divider-color: rgb(17, 17, 17);
 				--chart1-color: rgba(93, 169, 213, 0.7);
 				--chart2-color: rgba(157, 93, 213, 0.7);
@@ -561,6 +559,18 @@
 				}
 			}
 
+			@media only screen and (max-height: 350px) {
+				.min-height-350 {
+					display: none;
+				}
+			}
+
+			@media only screen and (max-width: 1500px) {
+				.min-width-1500 {
+					display: none;
+				}
+			}
+
 			.shiptable-map {
 				width: 10px;
 			}
@@ -618,6 +628,90 @@
 			}
 
 			.statcard_inner table {
+			}
+
+			#tablecard {
+				top: 10px;
+				right: 50px;
+				width: 600px;
+				max-height: calc(100vh - 135px);
+				display: none;
+				flex-direction: column;
+				justify-content: stretch;
+				z-index: 998;
+				position: absolute;
+				background: var(--menu-background-color);
+				color: var(--menu-font-color);
+				cursor: auto;
+				border-radius: 5px;
+				border: 2px solid var(--shipcard-content-color);
+			}
+
+			.tablecard_inner {
+				position: relative;
+				max-height: calc(100vh - 135px);
+			}
+
+			.tablecard_inner table {
+				overflow: auto;
+				border-collapse: collapse;
+				overflow: auto;
+				max-height: calc(100vh - 135px);
+			}
+
+			.tablecard_inner table thead {
+				background-color: var(--shipcard-header-color);
+				font-size: 16px;
+				color: white;
+			}
+
+			.tablecard_inner table thead > tr > th {
+				text-align: left;
+				padding: 10px 5px;
+				border-collapse: collapse;
+			}
+
+			.tablecard_inner table > tbody > th, .tablecard_inner table > tbody > td {
+				border: none;
+				padding: 3px 3px;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			.tablecard_inner table > tbody > tr:nth-child(even) {
+				background: var(--table-alternate-background-color);
+			}
+
+			.tablecard_inner table > tbody > tr:hover {
+				background: var(--table-selection-background-color);
+			}
+
+			.tablecard_inner table th:nth-child(1), .tablecard_inner table td:nth-child(1) { /* Flag */
+				width: 20px;
+			}
+
+			.tablecard_inner table td:nth-child(1) { /* Flag */
+				font-size: 24px;
+			}
+
+			.tablecard_inner table th:nth-child(2), .tablecard_inner table td:nth-child(2) { /* Name */
+				width: 220px;
+			}
+
+			.tablecard_inner table th:nth-child(3), .tablecard_inner table td:nth-child(3) { /* Distance */
+				width: 100px;
+			}
+
+			.tablecard_inner table th:nth-child(4), .tablecard_inner table td:nth-child(4) { /* Speed */
+				width: 130px;
+			}
+
+			.tablecard_inner table th:nth-child(5), .tablecard_inner table td:nth-child(5) { /* Type */
+				width: 30px;
+			}
+
+			.tablecard_inner table th:nth-child(6), .tablecard_inner table td:nth-child(6) { /* Last */
+				width: 100px;
 			}
 
 			.active-control {
@@ -960,11 +1054,19 @@
 				}
 			}
 
-			.stat-panel {
+			.stat-panel-page {
 				max-width: 750px;
 				width: 100%;
 				border-radius: 15px;
+			}
+			.stat-panel {
+				margin: 0px;
 				background-color: var(--panel-color);
+				padding: 0px;
+			}
+
+			.settings-bg {
+				background-color: var(--settings-bg-color);
 			}
 
 			.stat-panel > header {
@@ -1056,8 +1158,8 @@
 
 			.leaflet-tooltiplabel {
 				background-color: transparent !important;
-				color: var(--menu-font-color);
-				text-shadow: var(--textshadow);
+				color: var(--tooltip-font-color) !important;
+				text-shadow: var(--textshadow) !important;
 				border: none;
 				box-shadow: none;
 				font-size: 10px;
@@ -1114,7 +1216,7 @@
 				box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 				list-style-type: none;
 				padding: 8px 0;
-				z-index: 10002;
+				z-index: 10004;
 				font-size: 14px;
 				color: var(--menu-font-color);
 				width: auto;
@@ -1182,7 +1284,7 @@
 				left: 50%;
 				top: 50%;
 				transform: translate(-50%, -50%);
-				z-index: 10001;
+				z-index: 10005;
 			}
 
 			.dialog-title {
@@ -1852,9 +1954,91 @@
 					opacity: 1;
 				}
 			}
-		</style>
+			.color-picker {
+				-webkit-appearance: none;
+				border-radius: 0;
+				border: none;
+				width: 100px;
+				height: 20px;
+				cursor: pointer;
+				vertical-align: middle;
+				background-color: transparent;
+			}
 
-		<link rel="stylesheet" href="config.css" />
+			.color-picker::-webkit-color-swatch-wrapper {
+				padding: 0;
+			}
+
+			.color-picker::-webkit-color-swatch {
+				border: none;
+			}
+
+			.settings_window {
+				display: flex;
+				flex-direction: column;
+				background-color: var(--settings-bg-color);
+				width: 550px;
+				height: calc(100% - 60px);
+				top: 60px;
+				left: 0px;
+				position: fixed;
+				z-index: 10003;
+				border: none;
+				border-radius: 0%;
+				padding: 0px;
+				margin: 0px;
+				transform: translateX(-100%);
+			    transition: transform 0.3s ease-out;
+			}
+
+			.settings_window.active {
+				transform: translateX(0);
+			}
+
+			@media (max-width: 750px) {
+				.settings_window {
+					width: 100%;
+					transform: translateX(-100%); 
+				}
+			}
+
+			.settings_main {
+				flex: 0 0 1;
+				overflow: auto;
+			}
+
+			.settings_header {
+				flex: 0 0 50px;
+				background-color: var(--settings-bg-color);
+				color: var(--menu-font-color);
+				border: none;
+				font-size: 20px;
+				border-bottom: solid 1px darkgrey;
+				display: flex;
+				flex-direction: row;
+			}
+
+			.settings_header div:nth-child(1) {
+				flex: 0 0 40px;
+				transform: scale(1.3) translateX(5px) translateY(11px);
+			}
+
+
+			.settings_header div:nth-child(2) {
+				flex: 1 1 0;
+				display: flex;
+				align-items: center;
+				padding-left: 10px;
+			}
+
+			.settings_header div:nth-child(3) {
+				flex: 0 0 50px;
+				transform: scale(1.3) translateX(0px) translateY(11px);
+				cursor: pointer;
+				color: red;
+			}
+
+		</style>
 	</head>
 
 	<body>
@@ -1908,6 +2092,94 @@
 		<div class="mainspace-container">
 			<div class="notification-container" id="notification-container"></div>
 
+			<div class="settings_window settings-bg" id="settings">
+					<div class="settings_header">
+						<div class="settings_icon"></div>
+						<div>Settings</div>
+						<div onclick="closeSettings()" class="close_icon"></div>
+					</div>
+					<div class="settings_main stat-panel settings-bg">
+						<header>System</header>
+						<section>
+							<div><span>Dark Mode</span><span>
+								<input type="checkbox" id="settings_darkmode" onchange="setDarkMode(this.checked)">	
+							</span></div>
+							<div><span>Lat/Lon in DMS</span><span>
+								<input type="checkbox" id="settings_latlon_in_dms" onchange="setLatLonInDMS(this.checked)">	
+							</span></div>
+							<div><span>Dimension in Ft</span><span>
+								<input type="checkbox" id="settings_dim_in_feet" onchange="setDimensionInFeet(this.checked)">	
+							</span></div>
+							<div><span>Units</span><span>
+								<select id="settings_metric" onchange="setMetrics(this.value)">
+									<option value="default">Default</option>
+									<option value="metric">Metric</option>
+									<option value="imperial">Imperial</option>
+								</select>
+							</span></div>
+						</section>
+						<header>Map</header>
+						<section>
+							<div><span>Show range</span><span>
+								<input type="checkbox" id="settings_show_range" onchange="setRangeSwitch(this.checked)">	
+							</span></div>
+							<div><span>Fade icons</span><span>
+								<input type="checkbox" id="settings_fading" onchange="setFading(this.checked)">	
+							</span></div>
+						</section>
+						<section>
+							<div><span>Show all labels</span><span>
+								<input type="checkbox" id="settings_labels" onchange="setLabel(this.checked)">	
+							</span></div>
+							<div><span>Text-only labels</span><span>
+								<input type="checkbox" id="settings_tooltipLean" onchange="setTooltipStyling(this.checked)">	
+							</span></div>
+							<div><span>Label Color</span><span>
+								<input type="color" class="color-picker" id="settings_tooltipLabelColor" onchange="setLabelColor('tooltipLabelColor',this.value)">	
+							</span></div>
+							<div><span>Label Color (Dark)</span><span>
+								<input type="color" class="color-picker" id="settings_tooltipLabelColorDark" onchange="setLabelColor('tooltipLabelColorDark',this.value)">	
+							</span></div>
+							<div><span>Declutter labels</span><span>
+								<input type="checkbox" id="settings_tooltipOverlap" onchange="setTooltipOverlay(!(this.checked))">	
+							</span></div>
+						</section>
+						<section>
+							<div><span>Ship Outline Border</span><span>
+								<input type="color" class="color-picker" id="settings_shipoutline_border" onchange="setShipOutlineBorder(this.value)">	
+							</span></div>
+							<div><span>Ship Outline Inner</span><span>
+								<input type="color" class="color-picker" id="settings_shipoutline_inner" onchange="setShipOutlineInner(this.value)">	
+							</span></div>
+							<div>
+								<span>Ship Outline Opacity</span>
+								<span>
+									<input type="range"  id="settings_shipoutline_opacity" min="0" max="1" step="0.01" onchange="setShipOutlineOpacity(this.value)">
+								</span>
+							</div>
+						</section>
+
+						<section>
+							<div><span>Range Color</span><span>
+								<input type="color" class="color-picker" id="settings_range_color" onchange="setRangeColor(this.value,'range_color')">	
+							</span></div>
+							<div><span>Range Short Color</span><span>
+								<input type="color" class="color-picker" id="settings_range_color_short" onchange="setRangeColor(this.value,'range_color_short')">	
+							</span></div>
+						</section>
+
+						<section>
+							<div><span>Range Color (Dark)</span><span>
+								<input type="color" class="color-picker" id="settings_range_color_dark" onchange="setRangeColor(this.value,'range_color_dark')">	
+							</span></div>
+							<div><span>Range Short Color (Dark)</span><span>
+								<input type="color" class="color-picker" id="settings_range_color_dark_short" onchange="setRangeColor(this.value,'range_color_dark_short')">	
+							</span></div>
+						</section>
+				</div>
+			</div>
+
+
 			<div oncontextmenu="showContextMenu(event,0,['settings'])" class="mainspace">
 				<ul id="context-menu">
 					<li class="station" onclick="pinStation()"><i class="push_pin_icon"></i>Center map on station</li>
@@ -1942,8 +2214,8 @@
 					<li class="mmsi noandroid" onclick="openAISHub(context_mmsi)"><i class="public_icon"></i>Find on AISHub</li>
 					<li class="mmsi noandroid" onclick="openShipXplorer(context_mmsi)"><i class="public_icon"></i>Find on ShipXplorer</li>
 					<li class="divider mmsi noandroid"></li>
-					<li class="settings" onclick="showPlugins()"><i class="build_icon"></i>Installed Plugins...</li>
-					<li class="settings" onclick="toggleMetrics()"><i class="speed_icon"></i><span id="ctx_toggle_metrics"></span></li>
+					<li class="settings" onclick="openSettings()"><i class="build_icon"></i>Settings...</li>
+					<li class="settings" onclick="showPlugins()"><i class="build_icon"></i>Installed Plugins</li>
 					<li class="settings noandroid" onclick="toggleDarkMode()"><i class="brightness_4_icon"></i>Toggle Light/Dark mode</li>
 				</ul>
 
@@ -1963,7 +2235,7 @@
 
 				<div class="tabcontent addscrollbar" id="stat">
 					<div class="stat-tab">
-						<div class="stat-panel">
+						<div class="stat-panel stat-panel-page">
 							<header>System</header>
 							<section class="noandroid">
 								<div><span>Station</span><span id="stat_station"></span></div>
@@ -2246,6 +2518,25 @@
 						</div>
 					</div>
 
+					<div id="tablecard">
+						<div class="tablecard_inner addscrollbar">
+							<table class = "mytable">
+								<thead>
+									<tr>
+										<th>Flag</th>
+										<th>Name</th>
+										<th>Dist</th>
+										<th>Speed</th>
+										<th>Type</th>
+										<th>Last</th>
+									</tr>
+								</thead>
+								<tbody id="tablecardBody">
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
 					<aside id="shipcard" class="shipcard-ismax">
 						<header id="shipcard_header">
 							<span onclick="toggleShipcardSize()" id="shipcard_header_title"></span>
@@ -2291,14 +2582,14 @@
 
 							<div onclick="shipcardselect(this)" class="shipcard-content-row shipcard-max-only">
 								<div><span>last signal</span><span id="shipcard_last_signal"></span></div>
-								<div><span>Source</span><span id="shipcard_last_group"></span></div>
+								<div><span>Receiver</span><span id="shipcard_last_group"></span></div>
 								<div><span>Count</span><span id="shipcard_count">-</span></div>
 							</div>
 
 							<div onclick="shipcardselect(this)" class="shipcard-content-row shipcard-max-only">
 								<div><span>RSSI</span><span id="shipcard_level">-</span></div>
 								<div><span>Drift</span><span id="shipcard_ppm">-</span></div>
-								<div><span>Received</span><span id="shipcard_sources">-</span></div>
+								<div><span>Sources</span><span id="shipcard_sources">-</span></div>
 							</div>
 
 							<div onclick="shipcardselect(this)" class="shipcard-content-row shipcard-max-only">
@@ -2368,33 +2659,49 @@
 			var context_text = "";
 
 			// default settings
-			var settings = {
-				counter: true,
-				fading: false,
-				android: false,
-				welcome: true,
-				map_day: "Voyager",
-				map_night: "DarkMatter",
-				zoom: 10,
-				lat: 0,
-				lon: 0,
-				fix_center: false,
-				center_point: "station",
-				tooltipLean: true,
-				tooltipOverlap: false,
-				dark_mode: false,
-				center_radius: 0,
-				metric: "DEFAULT",
-				setcoord: true,
-				sort: "distance",
-				sort_dir: "asc",
-				tab: "stat",
-				labels: true,
-				eri: true,
-				loadURL: true,
-			};
+			var settings = {};
 			let isFetchingShips = false;
 
+			function restoreDefaultSettings() {
+				settings = {
+					counter: true,
+					fading: false,
+					android: false,
+					welcome: true,
+					latlon_in_dms: false,
+					map_day: "Voyager",
+					map_night: "DarkMatter",
+					zoom: 10,
+					lat: 0,
+					lon: 0,
+					range_color: "#FFA500",
+					range_color_short: "#FFDAB9",
+					range_color_dark: "#4B4B4B",
+					range_color_dark_short: "#4B4B4B",
+					fix_center: false,
+					center_point: "station",
+					tooltipLean: true,
+					tooltipOverlap: false,
+					tooltipLabelColor: "#424242",
+					tooltipLabelColorDark: "#f8f9fa",
+					shipoutline_border: "#A9A9A9",
+					shipoutline_inner: "#808080",
+					shipoutline_opacity: 0.9,
+					dark_mode: false,
+					center_radius: 0,
+					metric: "DEFAULT",
+					dim_in_feet: false,
+					setcoord: true,
+					sort: "distance",
+					sort_dir: "asc",
+					tab: "stat",
+					labels: true,
+					eri: true,
+					loadURL: true,
+				};
+			}
+
+	
 			// some functions useful in plugins
 			function addTileLayer(title, layer) {
 				basemaps[title] = layer;
@@ -2418,18 +2725,38 @@
 				c.addTo(map);
 			}
 
-			// transformations - for overwrite
+			function decimalToDMS(l, isLatitude) {
+				var degrees = Math.floor(Math.abs(l));
+				var minutes = Math.floor((Math.abs(l) - degrees) * 60);
+				var seconds = Number((((Math.abs(l) - degrees) * 60) - minutes) * 60).toFixed(1);
+				var direction = (isLatitude ? (l > 0 ? "N" : "S") : (l > 0 ? "E" : "W"));
+				return degrees + "&deg" + minutes + "'" + seconds + "\"" + direction;
+			}
 
-			getDimensionVal = (c) => (settings.metric === "DEFAULT" ? Number(c).toFixed(0) : settings.metric === "SI" ? Number(c).toFixed(0) : Number(c * 3.2808399).toFixed(0));
-			getDimensionUnit = () => (settings.metric === "DEFAULT" ? "m" : settings.metric === "SI" ? "m" : "ft");
+			// transformations - for overwrite
+			getDimVal = (c) => {
+				if (settings.dim_in_feet) {
+					return Number(c * 3.2808399).toFixed(0);
+				}
+				return (settings.metric === "DEFAULT" || settings.metric === "SI") ? Number(c).toFixed(0) : Number(c * 3.2808399).toFixed(0);
+			};
+
+			getDimUnit = () => {
+				if (settings.dim_in_feet) {
+					return "ft";
+				}
+				return (settings.metric === "DEFAULT" || settings.metric === "SI") ? "m" : "ft";
+			};
+
 			getDistanceConversion = (c) => (settings.metric === "DEFAULT" ? c : settings.metric === "SI" ? c * 1.852 : c * 1.15078);
 			getDistanceVal = (c) => Number(getDistanceConversion(c)).toFixed(1);
 			getDistanceUnit = () => (settings.metric === "DEFAULT" ? "nmi" : settings.metric === "SI" ? "km" : "mi");
 			getSpeedVal = (c) => (settings.metric === "DEFAULT" ? Number(c).toFixed(1) : settings.metric === "SI" ? Number(c * 1.852).toFixed(1) : Number(c * 1.151).toFixed(1));
 			getSpeedUnit = () => (settings.metric === "DEFAULT" ? "kts" : settings.metric === "SI" ? "km/h" : "mph");
 
-			getLatVal = (ship) => (ship.approx ? "<i>" : "") + Number(ship.lat).toFixed(5) + (ship.approx ? "</i>" : "");
-			getLonVal = (ship) => (ship.approx ? "<i>" : "") + Number(ship.lon).toFixed(5) + (ship.approx ? "</i>" : "");
+			getLatValFormat = (ship) => (ship.approx ? "<i>" : "") + (settings.latlon_in_dms? decimalToDMS(ship.lat, true) : Number(ship.lat).toFixed(5)) + (ship.approx ? "</i>" : "");
+			getLonValFormat = (ship) => (ship.approx ? "<i>" : "") + (settings.latlon_in_dms? decimalToDMS(ship.lon, false) : Number(ship.lon).toFixed(5) )+ (ship.approx ? "</i>" : "");
+
 			getEtaVal = (ship) => ("0" + ship.eta_month).slice(-2) + "-" + ("0" + ship.eta_day).slice(-2) + " " + ("0" + ship.eta_hour).slice(-2) + ":" + ("0" + ship.eta_minute).slice(-2);
 			getDeltaTimeVal = (s) => (s < 60 ? s + "s" : s < 60 * 60 ? Math.floor(s / 60) + "m " + (s % 60) + "s" : Math.floor(s / 3600) + "h " + Math.floor((s % 3600) / 60) + "m");
 			getShipName = (ship) => ship.shipname;
@@ -2475,6 +2802,29 @@
 				}
 			}
 
+			function openSettings() {
+				document.querySelector('.settings_window').classList.add('active');
+			}
+
+
+			function closeSettings() {
+				document.querySelector('.settings_window').classList.remove('active');
+			}
+
+			function setLatLonInDMS(b) {
+				settings.latlon_in_dms = b;
+				saveSettings();
+
+				refresh_data();
+				if (table != null) table = null;
+			}
+
+			function setDimensionInFeet(b) {
+				settings.dim_in_feet = b;
+				saveSettings();
+				refresh_data();
+			}
+
 			function copyCoordinates(m) {
 				let coords = "not found";
 
@@ -2483,6 +2833,8 @@
 			}
 
 			function updateMapURL() {
+				if(isAndroid()) return;
+				
 				let newURL = window.location.href.split("?")[0] + "?lat=" + map.getCenter().lat.toFixed(5) + "&lon=" + map.getCenter().lng.toFixed(5) + "&zoom=" + map.getZoom() + "&tab=" + settings.tab;
 				history.replaceState(null, null, newURL);
 			}
@@ -2588,8 +2940,6 @@
 
 				document.getElementById("ctx_menu_unpin").style.display = settings.fix_center && context.includes("ctx-map") ? "flex" : "none";
 				document.getElementById("ctx_track").innerText = context_mmsi in marker_tracks && context.includes("mmsi-map") ? "Hide Track" : "Show Track";
-				document.getElementById("ctx_toggle_metrics").innerText =
-					settings.metric === "DEFAULT" ? "Switch to metric units" : settings.metric === "IMPERIAL" ? "Switch to default units" : "Switch to imperial units";
 
 				contextMenu.style.display = "block";
 
@@ -3039,21 +3389,29 @@
 				activeTileLayer.addTo(map);
 			}
 
+			var dynamicStyle = document.createElement('style');
+			document.head.appendChild(dynamicStyle);
+
+			function applyDynamicStyling() {
+			    dynamicStyle.innerHTML = `:root { --tooltip-font-color: ${settings.tooltipLabelColor}; } \n .dark { --tooltip-font-color: ${settings.tooltipLabelColorDark};}\n`;
+			}
+
 			function initMap() {
+
 				map = L.map("map", { zoomControl: false, zoomSnap: 0.01 }).setView([settings.lat, settings.lon], settings.zoom);
 				var control = L.control.layers(basemaps, overlapmaps, { title: "Select map and overlays", position: "bottomright" }).addTo(map);
-
+			
 				map.on("baselayerchange", function (event) {
 					if (settings.dark_mode) settings.map_night = event.name;
 					else settings.map_day = event.name;
 					saveSettings();
 				});
 				map.on("mousemove", function (evt) {
-					saveSettings();
+					debouncedSaveSettings();
 					updateTooltips();
 				});
 				map.on("zoomend", function (evt) {
-					saveSettings();
+					debouncedSaveSettings();
 					updateTooltips();
 				});
 				map.on("click", function () {
@@ -3087,6 +3445,11 @@
 				L.DomEvent.disableClickPropagation(document.getElementById("shipcard"));
 				addWrenchControl();
 				addMarkerCount();
+				addTableControl();
+			}
+
+			function setLabel(b) {
+				if(settings.label != b) toggleLabel();
 			}
 
 			function toggleLabel() {
@@ -3096,6 +3459,30 @@
 				if (!settings.labels) {
 					for (let [key, m] of Object.entries(markers)) if (m.isTooltipOpen()) m.getTooltip().toggle();
 				} else updateTooltips();
+			}
+
+			function setMetrics(s) {
+				if (s.toUpperCase() == "DEFAULT")
+					settings.metric = "DEFAULT";
+				else if (s.toUpperCase() == "METRIC")
+					settings.metric = "SI";
+				else if (s.toUpperCase() == "IMPERIAL")
+					settings.metric = "IMPERIAL";
+				else
+					settings.metric = "DEFAULT";
+
+				showNotification("Switched units to " + s);
+				saveSettings();
+
+				refresh_data();
+				if (table != null) table = null;
+			}
+
+			function getMetrics() {
+				if (settings.metric == "DEFAULT") return "Default";
+				if (settings.metric == "SI") return "Metric";
+				if (settings.metric == "IMPERIAL") return "Imperial";
+				return "Default";
 			}
 
 			function toggleMetrics() {
@@ -3241,6 +3628,56 @@
 				flashNumber("statcard_sarte", cSarte);
 			}
 
+			function updateTablecard() {
+
+				if (document.getElementById("tablecard").style.display != "block") return;
+				var tableBody = document.getElementById("tablecardBody");
+				tableBody.innerHTML = "";
+
+				if (shipsDB == null) return;
+
+				for (let [key, m] of Object.entries(markers)) {
+					if (key in shipsDB) {
+						let ship = shipsDB[key].raw;
+						var row = tableBody.insertRow();
+						row.addEventListener('mouseover', function(e) {
+							startHover(ship.mmsi);
+							L.DomEvent.stopPropagation(e);
+						});
+						row.addEventListener('mouseout', function(e) {
+							endHover(ship.mmsi);
+							L.DomEvent.stopPropagation(e);
+						});			
+						row.addEventListener("click", function (e) {
+							showShipcard(ship.mmsi);
+							L.DomEvent.stopPropagation(e);
+						});
+						row.addEventListener("contextmenu", function (e) {
+							showContextMenu(event, ship.mmsi, ["mmsi","mmsi-map"]);
+							L.DomEvent.stopPropagation(e);
+						});
+		
+						var cell1 = row.insertCell(0);
+						cell1.innerHTML = getFlag(ship.country);
+
+						var cell2 = row.insertCell(1);
+						cell2.innerHTML = (getShipName(ship) || ship.mmsi);
+
+						var cell3 = row.insertCell(2);
+						cell3.innerHTML = ship.distance ? getDistanceVal(ship.distance) + " " + getDistanceUnit() : "";
+
+						var cell4 = row.insertCell(3);
+						cell4.innerHTML = ship.speed ? getSpeedVal(ship.speed) + " " + getSpeedUnit() : "";
+
+						var cell5 = row.insertCell(4);
+						cell5.innerHTML = ship != null ? "<span " + getIconCSS(ship) + "></span>" : "";
+
+						var cell6 = row.insertCell(5);
+						cell6.innerHTML =  getDeltaTimeVal(ship.last_signal); 
+					}
+				}
+			}
+
 			function flashNumber(id, newValue) {
 				const element = document.getElementById(id);
 				const oldValue = parseInt(element.innerText) || 0;
@@ -3269,7 +3706,7 @@
 				if (document.getElementById("statcard").style.display == "block") updateMarkerCountTooltip();
 			}
 
-			function toggeStatcard() {
+			function toggleStatcard() {
 				if (document.getElementById("statcard").style.display == "block") hideStatcard();
 				else showStatcard();
 			}
@@ -3282,6 +3719,21 @@
 			function hideStatcard() {
 				document.getElementById("statcard").style.display = "none";
 			}
+
+			function toggleTablecard() {
+				if (document.getElementById("tablecard").style.display == "block") hideTablecard();
+				else showTablecard();
+			}
+
+			function showTablecard() {
+				document.getElementById("tablecard").style.display = "block";
+				updateTablecard();
+			}
+
+			function hideTablecard() {
+				document.getElementById("tablecard").style.display = "none";
+			}
+
 
 			var isDragging = false;
 			var offsetX, offsetY, headerY;
@@ -3366,7 +3818,7 @@
 					var controlDiv = L.DomUtil.create("div", "leaflet-control-layers round-control min-height-300");
 
 					L.DomEvent.on(controlDiv, "click", function (e) {
-						toggeStatcard();
+						toggleStatcard();						
 						L.DomEvent.stopPropagation(e);
 					});
 
@@ -3381,6 +3833,30 @@
 
 				addControlToMap(markerCountControl);
 				updateMarkerCount();
+			}
+
+			function addTableControl() {
+
+				markerTableControl = L.control({ position: "topright" });
+
+				markerTableControl.onAdd = function (map) {
+					var controlDiv = L.DomUtil.create("div", "leaflet-control-layers round-control min-height-350 min-width-1500");
+
+					L.DomEvent.on(controlDiv, "click", function (e) {
+						L.DomEvent.stopPropagation(e);
+						toggleTablecard();
+					});
+
+					var controlBoundary = L.DomUtil.create("div", "leaflet-control-settings-toggle round-control", controlDiv);
+					iconLabelSpan = L.DomUtil.create("span", "directions_boat_icon", controlBoundary);
+					iconLabelSpan.innerHTML = "";
+					iconLabelSpan.style.padding = "6px";
+					iconLabelSpan.style.transform = "scale(0.4)";
+
+					return controlDiv;
+				};
+
+				addControlToMap(markerTableControl);
 			}
 
 			function addWrenchControl() {
@@ -3414,6 +3890,17 @@
 				}
 			}
 
+			function setRangeSwitch(b) {
+				if(b != settings.show_range) {
+					toggleRange();
+				}
+			}
+
+			function setRangeColor(v,f) {
+				settings[f] = v;
+				updateRangeColor();
+			}
+
 			async function toggleRange() {
 				const isSationSet = station && station.hasOwnProperty("lat") && station.hasOwnProperty("lon") && !(station.lat == 0 && station.lon == 0);
 
@@ -3426,6 +3913,12 @@
 
 				if (!settings.show_range) removeRange();
 				else await plotRange();
+			}
+
+			function setFading(b) {
+				if(b != settings.fading) {
+					toggleFading();
+				}
 			}
 
 			function toggleFading() {
@@ -3543,12 +4036,12 @@
 					});
 				}
 
-				const markerColor = getComputedStyle(document.documentElement).getPropertyValue("--range-color").trim();
+				const markerColor = settings.dark_mode ? settings.range_color_dark : settings.range_color;
 
 				marker_range = L.polygon(range_outline, { fillOpacity: 0, color: markerColor, interactive: false });
 				marker_range.addTo(map);
 
-				const markerShortColor = getComputedStyle(document.documentElement).getPropertyValue("--range-short-color").trim();
+				const markerShortColor = settings.dark_mode ? settings.range_color_dark_short : settings.range_color_short;
 
 				marker_short_range = L.polygon(range_short_outline, { fillOpacity: 0, color: markerShortColor, interactive: false });
 				marker_short_range.addTo(map);
@@ -3559,8 +4052,8 @@
 			function updateRangeColor() {
 				if (marker_range == null) return;
 
-				const markerColor = getComputedStyle(document.documentElement).getPropertyValue("--range-color").trim();
-				const markerShortColor = getComputedStyle(document.documentElement).getPropertyValue("--range-short-color").trim();
+				const markerColor = settings.dark_mode ? settings.range_color_dark : settings.range_color;
+				const markerShortColor = settings.dark_mode ? settings.range_color_dark_short : settings.range_color_short;
 
 				marker_range.setStyle({ color: markerColor });
 				marker_short_range.setStyle({ color: markerShortColor });
@@ -3752,6 +4245,24 @@
 				return L.latLng([latlng.lat + delta[0] * distance, latlng.lng + delta[1] * distance]);
 			}
 
+			function setShipOutlineBorder(v) {
+				settings.shipoutline_border = v;
+				saveSettings();
+				refresh_data();
+			}
+
+			function setShipOutlineOpacity(v) {
+				settings.shipoutline_opacity = v;
+				saveSettings();
+				refresh_data();
+			}
+
+			function setShipOutlineInner(v) {
+				settings.shipoutline_inner = v;
+				saveSettings();
+				refresh_data();
+			}
+			
 			function drawShipOutline(ship) {
 				if (ship == null) return;
 
@@ -3764,7 +4275,7 @@
 					to_starboard = ship.to_starboard;
 				let heading = ship.heading;
 				let opacity = getShipOpacity(ship);
-				let fillOpacity = 0.9 * opacity;
+				let fillOpacity = settings.shipoutline_opacity * opacity;
 
 				if (to_bow == null || to_stern == null || to_port == null || to_starboard == null) return;
 
@@ -3776,9 +4287,9 @@
 					fillOpacity = 0.2 * opacity;
 				}
 
-				let col = { color: "darkgrey", fillColor: "grey" };
-				if (ship.mmsi == hover_mmsi) col = { color: "orange", fillColor: "grey" };
-				else if (ship.mmsi == card_mmsi) col = { color: "#943b3e", fillColor: "grey" };
+				let col = { color: settings.shipoutline_border, fillColor: settings.shipoutline_inner };
+				if (ship.mmsi == hover_mmsi) col = { color: "orange", fillColor: settings.shipoutline_inner };
+				else if (ship.mmsi == card_mmsi) col = { color: "#943b3e", fillColor: settings.shipoutline_inner };
 
 				if (heading != null) {
 					const deltaBow = calcOffset1M(latlng, heading % 360);
@@ -4640,7 +5151,7 @@
 								formatter: function (cell) {
 									const ship = cell.getRow().getData();
 									const color = ship.validated == 1 ? "green" : ship.validated == -1 ? "red" : "inherited";
-									return "<div style='color:" + color + "'>" + (ship.lat != null ? getLatVal(ship) : "") + "</div>";
+									return "<div style='color:" + color + "'>" + (ship.lat != null ? getLatValFormat(ship) : "") + "</div>";
 								},
 							},
 							{
@@ -4650,7 +5161,7 @@
 								formatter: function (cell) {
 									const ship = cell.getRow().getData();
 									const color = ship.validated == 1 ? "green" : ship.validated == -1 ? "red" : "inherited";
-									return "<div style='color:" + color + "'>" + (ship.lon != null ? getLonVal(ship) : "") + "</div>";
+									return "<div style='color:" + color + "'>" + (ship.lon != null ? getLonValFormat(ship) : "") + "</div>";
 								},
 							},
 							{
@@ -4857,6 +5368,16 @@
 				clearHoverMarker();
 			}
 
+			function debounce(func, wait) {
+				let timeout;
+				return function(...args) {
+					clearTimeout(timeout);
+					timeout = setTimeout(() => func.apply(this, args), wait);
+				};
+			}
+
+			const debouncedSaveSettings = debounce(saveSettings, 250);
+
 			function saveSettings() {
 				if (map !== undefined) {
 					settings.lat = map.getCenter().lat;
@@ -4878,6 +5399,7 @@
 				localStorage.settings = JSON.stringify(settings);
 
 				updateMapURL();
+				updateSettingsTab();
 			}
 
 			function loadSettings() {
@@ -4915,6 +5437,8 @@
 				for (const [key, value] of urlParams.entries()) if (settings.hasOwnProperty(key)) settings = { ...settings, [key]: value };
 
 				settings.dark_mode = settings.dark_mode == "true" || settings.dark_mode == true;
+				settings.latlon_in_dms = settings.latlon_in_dms == "true" || settings.latlon_in_dms == true;
+				settings.dim_in_feet = settings.dim_in_feet == "true" || settings.dim_in_feet == true;
 			}
 
 			function updateShipShape(ship) {
@@ -5224,15 +5748,15 @@
 				document.getElementById("shipcard_status").innerHTML = getStatusVal(ship);
 				document.getElementById("shipcard_last_signal").innerHTML = getDeltaTimeVal(ship.last_signal);
 				document.getElementById("shipcard_eta").innerHTML = ship.eta_month != null && ship.eta_hour != null && ship.eta_day != null && ship.eta_minute != null ? getEtaVal(ship) : null;
-				document.getElementById("shipcard_lat").innerHTML = ship.lat ? getLatVal(ship) : null;
-				document.getElementById("shipcard_lon").innerHTML = ship.lon ? getLonVal(ship) : null;
+				document.getElementById("shipcard_lat").innerHTML = ship.lat ? getLatValFormat(ship) : null;
+				document.getElementById("shipcard_lon").innerHTML = ship.lon ? getLonValFormat(ship) : null;
 
 				document.getElementById("shipcard_speed").innerHTML = ship.speed ? getSpeedVal(ship.speed) + " " + getSpeedUnit() : null;
 				document.getElementById("shipcard_distance").innerHTML = ship.distance ? getDistanceVal(ship.distance) + " " + getDistanceUnit() : null;
-				document.getElementById("shipcard_draught").innerHTML = ship.draught ? getDimensionVal(ship.draught) + " " + getDimensionUnit() : null;
+				document.getElementById("shipcard_draught").innerHTML = ship.draught ? getDimVal(ship.draught) + " " + getDimUnit() : null;
 				document.getElementById("shipcard_dimension").innerHTML =
 					ship.to_bow != null && ship.to_stern != null && ship.to_port != null && ship.to_starboard != null
-						? getDimensionVal(ship.to_bow + ship.to_stern) + " " + getDimensionUnit() + " x " + getDimensionVal(ship.to_port + ship.to_starboard) + " " + getDimensionUnit()
+						? getDimVal(ship.to_bow + ship.to_stern) + " " + getDimUnit() + " x " + getDimVal(ship.to_port + ship.to_starboard) + " " + getDimUnit()
 						: null;
 
 				document.getElementById("shipcard_track").innerText = card_mmsi in marker_tracks ? "Hide Track" : "Show Track";
@@ -5355,16 +5879,30 @@
 				updateTooltips();
 			}
 
-			function toggleTooltipStyling() {
-				settings.tooltipLean = !settings.tooltipLean;
-				if (!settings.labels) settings.labels = true;
+			function setTooltipStyling(b) {
+				settings.tooltipLean = b;
 				saveSettings();
 				for (let [key, m] of Object.entries(markers)) {
 					const cls = settings.tooltipLean ? "leaflet-tooltiplabel" : "leaflet-tooltip";
 					markers[key].unbindTooltip();
 					createTooltip(shipsDB[key].raw);
 				}
-				updateTooltips();
+				updateTooltips();			
+			}
+
+			function toggleTooltipStyling() {
+				if (!settings.labels) settings.labels = true;
+				setTooltipStyling(!settings.tooltipLean);
+			}
+
+			function setLabelColor(v, c) {
+				settings[v] = c;
+				saveSettings();
+				applyDynamicStyling();
+			}
+
+			function setTooltipOverlay(b) {
+				if(settings.tooltipOverlap != b) toggleTooltipOverlap();
 			}
 
 			function toggleTooltipOverlap() {
@@ -5423,6 +5961,7 @@
 				}
 
 				updateMarkerCount();
+				updateTablecard();
 				plotStation(station);
 				await plotRange();
 			}
@@ -5457,6 +5996,12 @@
 
 				updateRangeColor();
 				updateMapLayer();
+			}
+
+			function setDarkMode(b) {
+				settings.dark_mode = b;
+				updateDarkMode();
+				saveSettings();
 			}
 
 			function toggleDarkMode() {
@@ -5501,6 +6046,32 @@
 				showTrack(m);
 			}
 
+			function updateSettingsTab() {
+				document.getElementById("settings_darkmode").checked = settings.dark_mode;
+				document.getElementById("settings_latlon_in_dms").checked = settings.latlon_in_dms;
+				document.getElementById("settings_dim_in_feet").checked = settings.dim_in_feet;
+				document.getElementById("settings_metric").value = getMetrics().toLowerCase();
+				document.getElementById("settings_fading").checked = settings.fading;
+				document.getElementById("settings_show_range").checked = settings.show_range;
+
+				document.getElementById("settings_tooltipOverlap").checked = !settings.tooltipOverlap;
+				document.getElementById("settings_tooltipLean").checked = settings.tooltipLean;
+				document.getElementById("settings_labels").checked = settings.labels;
+
+				document.getElementById("settings_shipoutline_border").value = settings.shipoutline_border;
+				document.getElementById("settings_shipoutline_inner").value = settings.shipoutline_inner;
+				document.getElementById("settings_shipoutline_opacity").value = settings.shipoutline_opacity;
+
+				document.getElementById("settings_range_color").value = settings.range_color;
+				document.getElementById("settings_range_color_short").value = settings.range_color_short;
+				document.getElementById("settings_range_color_dark").value = settings.range_color_dark;
+				document.getElementById("settings_range_color_dark_short").value = settings.range_color_dark_short;
+
+				document.getElementById("settings_tooltipLabelColor").value = settings.tooltipLabelColor;
+				document.getElementById("settings_tooltipLabelColorDark").value = settings.tooltipLabelColorDark;
+
+			}
+
 			function activateTab(b, a) {
 				hideMenuifSmall();
 
@@ -5524,6 +6095,7 @@
 				interval = setInterval(refresh_data, refreshIntervalMs);
 
 				if (a != "map") StopFireworks();
+				if(a == "settings") updateSettingsTab();
 
 				if (a == "realtime") {
 					if (evtSource == null) {
@@ -5567,6 +6139,8 @@
 			}
 
 			function selectTab() {
+				if(settings.tab == "settings") settings.tab = "stat";
+
 				if (settings.tab != "realtime" && settings.tab != "about" && settings.tab != "map" && settings.tab != "plots" && settings.tab != "ships" && settings.tab != "stat") {
 					settings.tab = "stat";
 					alert("Invalid tab specified");
@@ -5703,6 +6277,9 @@
 		<script src="config.js"></script>
 
 		<script>
+			let urlParams = new URLSearchParams(window.location.search);
+			restoreDefaultSettings();
+
 			console.log("Plugin loading completed");
 
 			init_preSettings();
@@ -5717,6 +6294,7 @@
 			init_postSettings();
 
 			updateAndroid();
+			applyDynamicStyling();
 
 			console.log("Setup tabs");
 			initFullScreen();
@@ -5733,7 +6311,6 @@
 			console.log("Switch to active tab");
 			selectTab();
 
-			let urlParams = new URLSearchParams(window.location.search);
 			if (urlParams.get("mmsi")) openFocus(urlParams.get("mmsi"), urlParams.get("zoom"));
 
 			saveSettings();

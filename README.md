@@ -23,6 +23,8 @@ Only use this software in regions where such use is permitted.
 ## What's new?
 
 Edge version:
+- Settings Menu. Plugins for formatting Lat/Lon in DMS and showing ship dimension in Feet will no longer work and have to be set via the settings menu. 
+- Functionality to plot a list of all vessels on top of the map. This will only be visible for larger screens (click on ship icon on top right map)
 - retires the Curl library for HTTP message sending and directly uses a built-in TCP client leveraging openssl where needed for secure servers. This means that if you want to send data to a secure server, you have to build with the ssl development libraries:
 ```console
 sudo apt install libssl-dev
@@ -900,6 +902,7 @@ A list of some stations mentioning using AIS-catcher:
 - [Seattle Capitol Hill, US](https://www.marinetraffic.com/en/ais/details/stations/14916)
 - [Troguarat, France](https://www.marinetraffic.com/en/ais/details/stations/21360)
 - [Tyres, Sweden](https://www.marinetraffic.com/en/ais/details/stations/22269)
+- [Vancouver North, Canada](https://www.marinetraffic.com/en/ais/details/stations/29475) with hardware description [here](https://github.com/jvde-github/AIS-catcher/discussions/182).
 - [Vancouver West End, Canada](https://www.marinetraffic.com/en/ais/details/stations/7029)
 - [Vasa, Finland](https://www.marinetraffic.com/en/ais/details/stations/14994)
 - [Vernouillet, France](https://www.marinetraffic.com/en/ais/details/stations/10668)
