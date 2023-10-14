@@ -7,6 +7,8 @@ if [ "$EUID" -ne 0 ]; then
   exit
 fi
 
+datetime="$(date +"%Y%m%d-%H%M%S")"
+
 echo "Installing build tools and dependencies..."
 apt-get update
 apt-get install -y git make gcc g++ cmake pkg-config librtlsdr-dev whiptail minify
@@ -36,8 +38,8 @@ if [[ -f "${INSTALL_FOLDER}/aiscatcher.conf" ]]; then
    "2" "REPLACE existing config file by default config file" 3>&1 1>&2 2>&3);
    if [[ ${CHOICE} == "2" ]]; then
       if (whiptail --title "Confirmation" --yesno "Are you sure you want to REPLACE your existing config file by default config File?" --defaultno 10 60 5 ); then
-        echo "Saving old config file as \"aiscatcher.conf.old\" ";
-        cp ${INSTALL_FOLDER}/aiscatcher.conf ${INSTALL_FOLDER}/aiscatcher.conf.old;
+        echo "Saving old config file as \"aiscatcher.conf.$datetime.bup\" ";
+        mv ${INSTALL_FOLDER}/aiscatcher.conf ${INSTALL_FOLDER}/aiscatcher.conf.$datetime.bup;
         create-config
       fi
    fi
@@ -59,7 +61,6 @@ cd ${INSTALL_FOLDER}
 /usr/local/bin/AIS-catcher \${CONFIG}
 EOM
 chmod +x ${SCRIPT_FILE}
-
 
 echo "Creating Service file aiscatcher.service"
 SERVICE_FILE=/lib/systemd/system/aiscatcher.service
@@ -131,9 +132,9 @@ if [[ -d "${INSTALL_FOLDER}/my-plugins" ]]; then
    "2" "REPLACE existing directory by all source plugins" 3>&1 1>&2 2>&3);
    if [[ ${CHOICE} == "2" ]]; then
       if (whiptail --title "Confirmation" --yesno "Are you sure you want to REPLACE your existing plugins?" --defaultno 10 60 5 ); then
-         echo "Renaming existing folder \"my-plugins\" to \"my-plugins.old\" "
-         rm -rf ${INSTALL_FOLDER}/my-plugins.old
-         mv ${INSTALL_FOLDER}/my-plugins ${INSTALL_FOLDER}/my-plugins.old
+         echo "Renaming existing folder \"my-plugins\" to \"my-plugins.$datetime.bup\" "
+         rm -rf ${INSTALL_FOLDER}/my-plugins.$datetime.bup
+         mv ${INSTALL_FOLDER}/my-plugins ${INSTALL_FOLDER}/my-plugins.$datetime.bup
          echo "Copying files from Source code folder \"AIS-catcher/plugins\" to folder \"my-plugins\" "
          mkdir ${INSTALL_FOLDER}/my-plugins
          cp ${INSTALL_FOLDER}/AIS-catcher/plugins/* ${INSTALL_FOLDER}/my-plugins/
