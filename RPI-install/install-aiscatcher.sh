@@ -28,6 +28,7 @@ echo "Writing code to config file aiscatcher.conf"
  -gr TUNER auto RTLAGC on BIASTEE off
  -u 127.0.0.1 10110
  -N 8383 PLUGIN_DIR /usr/share/aiscatcher/my-plugins STATION "Station" SHARE_LOC on LAT 59.000000 LON 17.000000 REALTIME on MSG on
+ -q
 EOM
 chmod 644 ${CONFIG_FILE}
 }
