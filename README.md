@@ -23,7 +23,9 @@ Only use this software in regions where such use is permitted.
 ## What's new?
 
 Edge version:
-- Settings Menu. Plugins for formatting Lat/Lon in DMS and showing ship dimension in Feet will no longer work and have to be set via the settings menu. 
+- Addition of a "Settings Menu" providing access to additional options which makes some of the previous plugins obsolete.
+![image](https://github.com/jvde-github/AIS-catcher/assets/52420030/f29aae44-a68b-4e47-8fba-e703add00f47)
+
 - Functionality to plot a list of all vessels on top of the map. This will only be visible for larger screens (click on ship icon on top right map)
 - retires the Curl library for HTTP message sending and directly uses a built-in TCP client leveraging openssl where needed for secure servers. This means that if you want to send data to a secure server, you have to build with the ssl development libraries:
 ```console
@@ -137,7 +139,7 @@ For RTL-SDR devices performance can be sensitive to the device settings. In gene
 ```console
 AIS-catcher -gr RTLAGC on TUNER auto -a 192K
 ```
-It has been reported by several users that adding a bandwidth setting of ``-a 192K`` can be beneficial  so it is definitely worthwhile to try with and without this filter.To find the best settings for your hardware requires some systematic experimentation whereby one parameter is changed at the time, e.g. switch RTLAGC ``on`` or ``off``. sett the TUNER to ``auto`` or try fixed tuner gains between 0 and 50. The hardware settings available depend on the hardware and more details can be found below.
+It has been reported by several users that adding a bandwidth setting of ``-a 192K`` can be beneficial  so it is definitely worthwhile to try with and without this filter.To find the best settings for your hardware requires some systematic experimentation whereby one parameter is changed at the time, e.g. switch RTLAGC ``on`` or ``off``, set the TUNER to ``auto`` or try fixed tuner gains between 0 and 50. The hardware settings available depend on the hardware and more details can be found below.
 
 AIS-catcher also supports the 18 Euro RPI Zero W. However, the hardware might not keep up with the high data flow. This can be resolved by activating **fast downsampling** via:
 ```console
@@ -206,7 +208,7 @@ The main menu behind the hamburger icon in the top left corner navigates between
 
 #### Visualization
 
-When AIS-catcher receives data containing a vessel's dimensions, it displays a circle that accommodates the ship's dimensions regardless of heading. Missing heading information is common for Class B ships. If there's a decent approximation available for the heading, such as course-over-ground above certain speeds, it will be used. Shapes plotted using this approximation will have a dashed border, indicating incomplete information. An example is the USS Constitution docked in Boston.
+When AIS-catcher receives data containing a vessel's dimensions but can not determine the direction it is pointing (heading), it will display a circle that accommodates the ship's dimensions regardless of heading. Missing heading information is common for Class B ships. If there's a decent approximation available for the heading, such as course-over-ground above certain speeds, it will be used. Shapes plotted using this approximation will have a dashed border, indicating incomplete information. An example is the USS Constitution docked in Boston.
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/52420030/219856857-e0965190-1468-47b6-88ad-423b77c455ff.png" width="50%"/>

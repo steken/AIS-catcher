@@ -284,6 +284,7 @@
 			}
 
 			.bottombar {
+				display: none;
 				flex: 0 0 5px;
 				background: var(--bottombar-color);
 			}
@@ -1987,7 +1988,7 @@
 				display: flex;
 				flex-direction: column;
 				background-color: var(--settings-bg-color);
-				width: 550px;
+				width: 500px;
 				height: calc(100% - 60px);
 				top: 60px;
 				left: 0px;
@@ -2112,6 +2113,9 @@
 					<div class="settings_main stat-panel settings-bg">
 						<header>System</header>
 						<section>
+							<div><span>Settings</span><span style="cursor: pointer;" onclick="applyDefaultSettings()">
+								Reset	
+							</span></div>
 							<div><span>Dark Mode</span><span>
 								<input type="checkbox" id="settings_darkmode" onchange="setDarkMode(this.checked)">	
 							</span></div>
@@ -2136,6 +2140,12 @@
 						<section>
 							<div><span>Fade icons</span><span>
 								<input type="checkbox" id="settings_fading" onchange="setFading(this.checked)">	
+							</span></div>
+							<div><span>Hover Color</span><span>
+								<input type="color" class="color-picker" id="settings_shiphover_color" onchange="setShipStyling('shiphover_color',this.value)">	
+							</span></div>
+							<div><span>Selection Color</span><span>
+								<input type="color" class="color-picker" id="settings_shipselection_color" onchange="setShipStyling('shipselection_color',this.value)">	
 							</span></div>
 						</section>
 						<header>Ship Labels</header>
@@ -2167,15 +2177,15 @@
 						<header>Ship Outline</header>
 						<section>
 							<div><span>Border Color</span><span>
-								<input type="color" class="color-picker" id="settings_shipoutline_border" onchange="setShipOutlineBorder(this.value)">	
+								<input type="color" class="color-picker" id="settings_shipoutline_border" onchange="setShipStyling('shipoutline_border',this.value)">	
 							</span></div>
 							<div><span>Inner Color</span><span>
-								<input type="color" class="color-picker" id="settings_shipoutline_inner" onchange="setShipOutlineInner(this.value)">	
+								<input type="color" class="color-picker" id="settings_shipoutline_inner" onchange="setShipStyling('shipoutline_inner',this.value)">	
 							</span></div>
 							<div>
 								<span>Opacity</span>
 								<span>
-									<input type="range"  id="settings_shipoutline_opacity" min="0" max="1" step="0.01" onchange="setShipOutlineOpacity(this.value)">
+									<input type="range"  id="settings_shipoutline_opacity" min="0" max="1" step="0.01" onchange="setShipStyling('shipoutline_opacity',this.value)">
 								</span>
 							</div>
 						</section>
@@ -2214,8 +2224,6 @@
 					<li class="ctx-map" onclick="deleteAllTracks()"><i class="remove_circle_outline_icon"></i>Remove all tracks</li>
 					<li class="ctx-map" onclick="ToggleFireworks()"><i class="explosion_icon"></i><span id="ctx_fireworks"></span></li>
 					<li class="ctx-map" onclick="toggleLabel()"><i class="label_icon"></i><span id="ctx_labelswitch"></span></li>
-					<li class="ctx-map" onclick="toggleTooltipStyling()"><i class="label_icon"></i><span id="ctx_tooltipstyling"></span></li>
-					<li class="ctx-map" onclick="toggleTooltipOverlap()"><i class="label_icon"></i><span id="ctx_tooltipoverlap"></span></li>
 					<li class="divider ctx-map"></li>
 					<li class="ctx-map" onclick="toggleFading()"><i class="directions_boat_icon"></i><span id="ctx_fading"></span></li>
 					<li class="ctx-map" onclick="toggleRange()"><i class="signal_cellular_alt_icon"></i><span id="ctx_range"></span></li>
@@ -2236,7 +2244,7 @@
 					<li class="mmsi noandroid" onclick="openAISHub(context_mmsi)"><i class="public_icon"></i>Find on AISHub</li>
 					<li class="mmsi noandroid" onclick="openShipXplorer(context_mmsi)"><i class="public_icon"></i>Find on ShipXplorer</li>
 					<li class="divider mmsi noandroid"></li>
-					<li class="settings" onclick="openSettings()"><i class="build_icon"></i>Settings...</li>
+					<li class="settings noandroid" onclick="openSettings()"><i class="build_icon"></i>Settings...</li>
 					<li class="settings noandroid" onclick="toggleDarkMode()"><i class="brightness_4_icon"></i>Toggle Light/Dark mode</li>
 				</ul>
 
@@ -2691,7 +2699,7 @@
 					welcome: true,
 					latlon_in_dms: true,
 					map_day: "Voyager",
-					map_night: "DarkMatter",
+					map_night: "Dark Matter",
 					zoom: 10,
 					lat: 0,
 					lon: 0,
@@ -2703,10 +2711,12 @@
 					center_point: "station",
 					tooltipLean: true,
 					tooltipOverlap: false,
-					tooltipLabelColor: "#424242",
-					tooltipLabelColorDark: "#f8f9fa",
-					tooltipLabelShadowColor: "#f8f9fa",
-					tooltipLabelShadowColorDark: "#424242",
+					tooltipLabelColor: "#000000",
+					tooltipLabelColorDark: "#ffffff",
+					tooltipLabelShadowColor: "#ffffff",
+					tooltipLabelShadowColorDark: "#000000",
+					shiphover_color: "#FFA500",
+					shipselection_color: "#943b3e",
 					shipoutline_border: "#A9A9A9",
 					shipoutline_inner: "#808080",
 					shipoutline_opacity: 0.9,
@@ -2715,8 +2725,6 @@
 					metric: "DEFAULT",
 					dim_in_feet: false,
 					setcoord: true,
-					sort: "distance",
-					sort_dir: "asc",
 					tab: "stat",
 					labels: true,
 					eri: true,
@@ -2725,6 +2733,37 @@
 			}
 
 	
+			function applyDefaultSettings() {
+				const t = settings.tab;
+
+				restoreDefaultSettings();
+
+				updateRangeColor();
+				setLatLonInDMS(settings.latlon_in_dms);
+				setDarkMode(settings.dark_mode);
+				setMetrics(settings.metric);
+				setDimensionInFeet(settings.dim_in_feet);
+				updateMapLayer();
+				updateTooltips();
+				setLabel(settings.label);
+				setTooltipOverlay(settings.tooltipOverlap);
+				setTooltipStyling(settings.tooltipLean);
+				setFading(settings.fading);
+
+				setLabelColor('tooltipLabelColor',settings.tooltipLabelColor);
+				setLabelColor('tooltipLabelShadowColor',settings.tooltipLabelShadowColor);
+				setLabelColor('tooltipLabelColorDark',settings.tooltipLabelColorDark);
+				setLabelColor('tooltipLabelShadowColorDark',settings.tooltipLabelShadowColorDark);
+
+				clearFocusMarker();
+				clearHoverMarker();
+
+				settings.tab = t;
+				settings.welcome = false;
+
+				refresh_data();
+			}
+
 			// some functions useful in plugins
 			function addTileLayer(title, layer) {
 				basemaps[title] = layer;
@@ -2940,8 +2979,6 @@
 				}
 
 				document.getElementById("ctx_labelswitch").textContent = settings.labels ? "Hide ship labels" : "Show ship labels";
-				document.getElementById("ctx_tooltipstyling").textContent = settings.tooltipLean ? "Show detailed ship labels" : "Show text-only ship labels";
-				document.getElementById("ctx_tooltipoverlap").textContent = settings.tooltipOverlap ? "De-clutter ship labels" : "Allow overlapping ship labels";
 				document.getElementById("ctx_range").textContent = settings.show_range ? "Hide station range" : "Show station range";
 				document.getElementById("ctx_fading").textContent = settings.fading ? "Show icons without fading" : "Show icons with fading";
 				document.getElementById("ctx_fireworks").textContent = evtSourceMap == null ? "Start Fireworks Mode" : "Stop Fireworks Mode";
@@ -4288,24 +4325,15 @@
 				return L.latLng([latlng.lat + delta[0] * distance, latlng.lng + delta[1] * distance]);
 			}
 
-			function setShipOutlineBorder(v) {
-				settings.shipoutline_border = v;
+			function setShipStyling(a,v) {
+				settings[a] = v;
 				saveSettings();
+				
+				clearFocusMarker();
+				clearHoverMarker();
 				refresh_data();
 			}
-
-			function setShipOutlineOpacity(v) {
-				settings.shipoutline_opacity = v;
-				saveSettings();
-				refresh_data();
-			}
-
-			function setShipOutlineInner(v) {
-				settings.shipoutline_inner = v;
-				saveSettings();
-				refresh_data();
-			}
-			
+	
 			function drawShipOutline(ship) {
 				if (ship == null) return;
 
@@ -4327,12 +4355,12 @@
 					style.dashOffset = "0";
 
 					if (ship.cog != null && ship.speed > 1) heading = ship.cog;
-					fillOpacity = 0.2 * opacity;
+					fillOpacity = 0.2 * settings.shipoutline_opacity * opacity;
 				}
 
 				let col = { color: settings.shipoutline_border, fillColor: settings.shipoutline_inner };
-				if (ship.mmsi == hover_mmsi) col = { color: "orange", fillColor: settings.shipoutline_inner };
-				else if (ship.mmsi == card_mmsi) col = { color: "#943b3e", fillColor: settings.shipoutline_inner };
+				if (ship.mmsi == hover_mmsi) col = { color: settings.shiphover_color, fillColor: settings.shipoutline_inner };
+				else if (ship.mmsi == card_mmsi) col = { color: settings.shipselection_color, fillColor: settings.shipoutline_inner };
 
 				if (heading != null) {
 					const deltaBow = calcOffset1M(latlng, heading % 360);
@@ -5379,7 +5407,8 @@
 						markers[hover_mmsi].openTooltip();
 					}
 				} else {
-					updateTooltips();
+					if(!settings.tooltipOverlap)
+						updateTooltips();
 				}
 
 				if (!(hover_mmsi in shipsDB)) return;
@@ -5398,7 +5427,8 @@
 				if (!settings.labels) {
 					if (m != null && m in markers) markers[m].closeTooltip();
 				} else {
-					updateTooltips();
+					if(!settings.tooltipOverlap)
+						updateTooltips();				
 				}
 
 				if (m in shipsDB) {
@@ -5665,7 +5695,7 @@
 
 			function setFocusMarker(latlon) {
 				if (marker_focus == null) {
-					marker_focus = L.circleMarker(latlon, { interactive: false, color: "red", radius: 20, weight: 4, fillOpacity: 0, pane: "locationMarker", className: "pulse" });
+					marker_focus = L.circleMarker(latlon, { interactive: false, color: settings.shipselection_color, radius: 20, weight: 4, fillOpacity: 0, pane: "locationMarker", className: "pulse" });
 					marker_focus.addTo(map);
 				} else marker_focus.setLatLng(latlon);
 			}
@@ -5679,7 +5709,7 @@
 
 			function setHoverMarker(latlon) {
 				if (marker_hover == null) {
-					marker_hover = L.circleMarker(latlon, { interactive: false, color: "orange", radius: 16, weight: 4, fillOpacity: 0, pane: "locationMarker" });
+					marker_hover = L.circleMarker(latlon, { interactive: false, color: settings.shiphover_color, radius: 16, weight: 4, fillOpacity: 0, pane: "locationMarker" });
 					marker_hover.addTo(map);
 				} else marker_hover.setLatLng(latlon);
 			}
@@ -6090,6 +6120,9 @@
 				document.getElementById("settings_dim_in_feet").checked = settings.dim_in_feet;
 				document.getElementById("settings_metric").value = getMetrics().toLowerCase();
 				document.getElementById("settings_fading").checked = settings.fading;
+				document.getElementById("settings_shiphover_color").value = settings.shiphover_color;
+				document.getElementById("settings_shipselection_color").value = settings.shipselection_color;
+
 				document.getElementById("settings_show_range").checked = settings.show_range;
 
 				document.getElementById("settings_tooltipOverlap").checked = !settings.tooltipOverlap;
@@ -6288,14 +6321,27 @@
 						maxZoom: 20,
 					}),
 				);
+				addTileLayer("Positron (no labels)",L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+					attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+					subdomains: 'abcd',
+					maxZoom: 20
+				}));
+
 				addTileLayer(
-					"DarkMatter",
+					"Dark Matter",
 					L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
 						attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
 						subdomains: "abcd",
 						maxZoom: 20,
 					}),
 				);
+
+				addTileLayer("Dark Matter (no labels)", L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+					attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+					subdomains: 'abcd',
+					maxZoom: 20
+				}));
+
 				addTileLayer(
 					"Voyager",
 					L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
@@ -6304,6 +6350,11 @@
 						maxZoom: 20,
 					}),
 				);
+				addTileLayer("Voyager (no labels)",L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+					attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+					subdomains: 'abcd',
+					maxZoom: 20
+				}));
 				addTileLayer("Satellite", L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { attribution: "Esri et al." }));
 
 				addOverlayLayer("OpenSeaMap", L.tileLayer("http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png", { attribution: 'Map data: &copy; <a href="http://www.openseamap.org">OSM</a>', maxZoom: 18 }));
