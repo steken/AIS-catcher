@@ -24,11 +24,11 @@ touch ${CONFIG_FILE}
 chmod 777 ${CONFIG_FILE}
 echo "Writing code to config file aiscatcher.conf"
 /bin/cat <<EOM >${CONFIG_FILE}
- -d:0
- -gr TUNER auto RTLAGC on BIASTEE off
- -u 127.0.0.1 10110
- -N 8383 PLUGIN_DIR /usr/share/aiscatcher/my-plugins STATION "Station" SHARE_LOC on LAT 59.000000 LON 17.000000 REALTIME on MSG on
- -q
+-d:0
+-gr TUNER auto RTLAGC on BIASTEE off
+-u 127.0.0.1 10110
+-N 8383 PLUGIN_DIR /usr/share/aiscatcher/my-plugins STATION "Station" SHARE_LOC on LAT 59.000000 LON 17.000000 REALTIME on MSG on
+-q
 EOM
 chmod 644 ${CONFIG_FILE}
 }
@@ -57,9 +57,18 @@ echo "Writing code to startup script file start-ais.sh"
 /bin/cat <<EOM >${SCRIPT_FILE}
 #!/bin/sh
 CONFIG=""
-while read -r line; do CONFIG="\${CONFIG} \$line"; done < ${INSTALL_FOLDER}/aiscatcher.conf
+a=""
+b=""
+while read -r line;
+   do
+      a="\$line";
+      b="\${a%%#*}";
+      if [ -n "\${b}" ]; then
+        CONFIG="\${CONFIG} \${b}";
+      fi
+   done < ${INSTALL_FOLDER}/aiscatcher.conf
 cd ${INSTALL_FOLDER}
-/usr/local/bin/AIS-catcher \${CONFIG}
+/usr/local/bin/AIS-catcher\${CONFIG}
 EOM
 chmod +x ${SCRIPT_FILE}
 
